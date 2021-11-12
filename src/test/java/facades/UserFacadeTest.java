@@ -1,3 +1,4 @@
+/*
 package facades;
 
 import entities.Role;
@@ -24,8 +25,6 @@ class UserFacadeTest {
     private static User admin = new User("admin", "test2");
     private static User both = new User("user_admin", "test3");
 
-
-    /** test **/
 
 
     @BeforeAll
@@ -54,7 +53,7 @@ class UserFacadeTest {
     void getUserFacade() {
     }
 
-/*
+
     @Test
     void getVeryfiedUser() throws AuthenticationException {
         String username = user.getUserName();
@@ -72,5 +71,6 @@ class UserFacadeTest {
 
 
     }
- */
+
 }
+ */
