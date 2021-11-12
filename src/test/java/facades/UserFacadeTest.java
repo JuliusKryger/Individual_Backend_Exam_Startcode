@@ -24,6 +24,10 @@ class UserFacadeTest {
     private static User admin = new User("admin", "test2");
     private static User both = new User("user_admin", "test3");
 
+
+    /** test **/
+
+
     @BeforeAll
     static void setUp() {
         facade = UserFacade.getUserFacade(emf);
