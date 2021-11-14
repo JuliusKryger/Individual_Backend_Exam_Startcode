@@ -1,5 +1,9 @@
 package facades;
 
+import dtos.ZooDTO;
+import entities.Zoo;
+
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 public class ZooFacade {
@@ -27,6 +31,26 @@ public class ZooFacade {
         }
         return instance;
     }
+
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
+    public ZooDTO getZooById(Integer id) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Zoo zoo = em.find(Zoo.class, id);
+        em.getTransaction().commit();
+        em.close();
+        if (zoo != null) {
+            zoo.setId(id);
+            return new ZooDTO(zoo);
+        } else {
+            return null;
+        }
+
+    }
+
 
 
 

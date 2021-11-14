@@ -7,8 +7,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "zoo")
 @Entity
+@Table(name = "zoo")
+@NamedQueries({
+        @NamedQuery(name = "Zoo.deleteAllRows", query = "DELETE from Zoo"),
+        @NamedQuery(name = "Zoo.getAllRows", query = "SELECT z from Zoo z"),
+        @NamedQuery(name = "Zoo.getPerson", query = "SELECT z from Zoo z WHERE z.id = :id"),
+        @NamedQuery(name = "Zoo.deletePersonById", query = "DELETE FROM Zoo z WHERE z.id = :id")
+})
+
 public class Zoo implements Serializable {
 
     /** This is my variables **/
@@ -21,7 +28,7 @@ public class Zoo implements Serializable {
     @Column(name = "zoo", length = 175, nullable = false)
     private String zoo;
 
-    @OneToMany
+    @OneToMany(mappedBy = "animals", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Animal> animals;
 
     private static final long serialVersionUID = -1L;

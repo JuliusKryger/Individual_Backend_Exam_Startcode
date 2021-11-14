@@ -1,6 +1,9 @@
 package dtos;
 
 import entities.Animal;
+import entities.Zoo;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ZooDTO {
@@ -9,14 +12,19 @@ public class ZooDTO {
 
     private Integer id;
     private String zoo;
-    private List<Animal> animals;
+    private List<AnimalDTO> animals;
 
     /** This is the constructor **/
 
-    public ZooDTO(Integer id, String zoo, List<Animal> animals) {
-        this.id = id;
+    public ZooDTO(String zoo, List<AnimalDTO> animals) {
         this.zoo = zoo;
         this.animals = animals;
+    }
+
+    public ZooDTO(Zoo entity) {
+        this.id = entity.getId();
+        this.zoo = entity.getZoo();
+        this.animals = entity.getAnimals() != null ? entity.getAnimalDTOList(entity.getAnimals()) : new ArrayList<>();
     }
 
     /** GETTERS AND SETTERS **/
@@ -37,11 +45,11 @@ public class ZooDTO {
         this.zoo = zoo;
     }
 
-    public List<Animal> getAnimals() {
+    public List<AnimalDTO> getAnimals() {
         return animals;
     }
 
-    public void setAnimals(List<Animal> animals) {
+    public void setAnimals(List<AnimalDTO> animals) {
         this.animals = animals;
     }
 
