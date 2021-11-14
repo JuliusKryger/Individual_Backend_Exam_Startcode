@@ -39,11 +39,13 @@ public class Animal implements Serializable {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.zoos = new ArrayList<>();
     }
 
     public Animal(String name, String age) {
         this.name = name;
         this.age = age;
+        this.zoos = new ArrayList<>();
     }
 
     public Animal(AnimalDTO dto) {

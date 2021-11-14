@@ -43,6 +43,12 @@ public class Zoo implements Serializable {
     public Zoo() {
     }
 
+    public Zoo(Integer id, String zoo) {
+        this.id = id;
+        this.zoo = zoo;
+        this.animals = new ArrayList<>();
+    }
+
     public Zoo(Integer id, String zoo, List<Animal> animals) {
         this.id = id;
         this.zoo = zoo;
