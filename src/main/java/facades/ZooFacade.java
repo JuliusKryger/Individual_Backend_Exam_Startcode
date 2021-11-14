@@ -1,32 +1,33 @@
 package facades;
 
+import dtos.AnimalDTO;
 import dtos.ZooDTO;
 import dtos.ZoosDTO;
+import entities.Animal;
 import entities.Zoo;
-import utils.Utility;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ZooFacade {
+
+    /**
+     * Full CRUD checklist ...
+     * Create Zoo ...    done !
+     * Get Zoo By ID ... done !
+     * Get all Zoo's ... done !
+     * Update Zoo ...    done !
+     * Delete Zoo ...    done !
+     **/
 
     private static EntityManagerFactory emf;
     private static ZooFacade instance;
 
     public ZooFacade() {
     }
-
-
-    /**
-     * Full CRUD checklist ...
-     * Create Zoo
-     * Get Zoo By ID done
-     * Get all Zoo's
-     * Update Zoo
-     * Delete Zoo
-     **/
 
     public static ZooFacade getZooFacade(EntityManagerFactory _emf) {
         if (instance == null) {
@@ -38,6 +39,33 @@ public class ZooFacade {
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    public synchronized ZooDTO createZoo(ZooDTO zooDTO) {
+        Zoo zoo = null;
+        List<AnimalDTO> animals = zooDTO.getAnimals();
+        List<AnimalDTO> a2 = new ArrayList<>();
+        zooDTO.setAnimals(a2);
+        EntityManager em = emf.createEntityManager();
+        try {
+            zoo = new Zoo(zooDTO);
+            em.getTransaction().begin();
+            em.persist(zoo);
+            if (zoo.getAnimals() != null) {
+                for (AnimalDTO a : animals) {
+                    AnimalDTO animal = createAnimal(a.getName(), a.getAge());
+                    em.find(Animal.class, animal.getId());
+                    Animal entity = new Animal(animal);
+                    zoo.addAnimal(entity);
+                    em.merge(zoo);
+                }
+            }
+            em.merge(zoo);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new ZooDTO(zoo);
     }
 
     public ZooDTO getZooById(Integer id) {
@@ -52,28 +80,32 @@ public class ZooFacade {
         } else {
             return null;
         }
-
     }
 
-    /**                                                     !! Will remove later !!
-    public List<ZooDTO> getAllZoosREMOVE() {
+    public ZoosDTO getAllZoos() {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Zoo> query = em.createQuery("SELECT z FROM Zoo z JOIN z.animals", Zoo.class);
-        return Utility.convertList(ZooDTO.class, query.getResultList());
-    }
-    **/
-
-    public ZoosDTO getAllZoos(){
-        EntityManager em = emf.createEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
-            TypedQuery <Zoo> typedQuery = em.createNamedQuery("Zoo.getAllRows", Zoo.class);
+            TypedQuery<Zoo> typedQuery = em.createNamedQuery("Zoo.getAllRows", Zoo.class);
             List<Zoo> zooList = typedQuery.getResultList();
             ZoosDTO zoosDTO = new ZoosDTO(zooList);
             em.getTransaction().commit();
             return zoosDTO;
+        } finally {
+            em.close();
         }
-        finally {
+    }
+
+    public synchronized ZooDTO updateZooName(ZooDTO zooDTO) {
+        EntityManager em = emf.createEntityManager();
+        Zoo updated = em.find(Zoo.class, zooDTO.getId());
+        try {
+            em.getTransaction().begin();
+            updated.setZoo(zooDTO.getZoo());
+            em.merge(updated);
+            em.getTransaction().commit();
+            return new ZooDTO(updated);
+        } finally {
             em.close();
         }
     }
@@ -91,11 +123,23 @@ public class ZooFacade {
         }
     }
 
+    /** Extra **/
 
+    public AnimalDTO createAnimal(String name, String age) {
+        EntityManager em = emf.createEntityManager();
+        Animal animal = new Animal();
 
-
-
-
+        try {
+            em.getTransaction().begin();
+            animal.setName(name);
+            animal.setAge(age);
+            em.persist(animal);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new AnimalDTO(animal);
+    }
 
 
 }

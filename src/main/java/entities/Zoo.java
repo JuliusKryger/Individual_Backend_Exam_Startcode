@@ -1,6 +1,7 @@
 package entities;
 
 import dtos.AnimalDTO;
+import dtos.ZooDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -46,6 +47,12 @@ public class Zoo implements Serializable {
         this.id = id;
         this.zoo = zoo;
         this.animals = animals;
+    }
+
+    public Zoo(ZooDTO dto) {
+        this.id = dto.getId();
+        this.zoo = dto.getZoo();
+        this.animals = dto.getAnimals() != null ? getAnimalList(dto.getAnimals()) : new ArrayList<>();
     }
 
     /**
