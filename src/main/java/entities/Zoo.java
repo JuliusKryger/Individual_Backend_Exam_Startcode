@@ -59,4 +59,13 @@ public class Zoo implements Serializable {
     public void setAnimals(List<Animal> animals) {
         this.animals = animals;
     }
+
+    @Override
+    public String toString() {
+        return "Zoo{" +
+                "id=" + id +
+                ", zoo='" + zoo + '\'' +
+                ", animals=" + animals +
+                '}';
+    }
 }
