@@ -12,8 +12,8 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "Zoo.deleteAllRows", query = "DELETE from Zoo"),
         @NamedQuery(name = "Zoo.getAllRows", query = "SELECT z from Zoo z"),
-        @NamedQuery(name = "Zoo.getPerson", query = "SELECT z from Zoo z WHERE z.id = :id"),
-        @NamedQuery(name = "Zoo.deletePersonById", query = "DELETE FROM Zoo z WHERE z.id = :id")
+        @NamedQuery(name = "Zoo.getZoo", query = "SELECT z from Zoo z WHERE z.id = :id"),
+        @NamedQuery(name = "Zoo.deleteZooById", query = "DELETE FROM Zoo z WHERE z.id = :id")
 })
 
 public class Zoo implements Serializable {

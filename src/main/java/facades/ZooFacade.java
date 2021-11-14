@@ -21,11 +21,11 @@ public class ZooFacade {
 
     /**
      * Full CRUD checklist ...
-     * Create Animal
-     * Get Animal By ID
-     * Get all animals
-     * Update Animal
-     * Delete Animal
+     * Create Zoo
+     * Get Zoo By ID done
+     * Get all Zoo's
+     * Update Zoo
+     * Delete Zoo
      **/
 
     public static ZooFacade getZooFacade(EntityManagerFactory _emf) {
@@ -78,7 +78,18 @@ public class ZooFacade {
         }
     }
 
-
+    public boolean deleteZooById(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM Zoo z WHERE z.id = :id").setParameter("id", id).executeUpdate();
+            em.createNamedQuery("Zoo.deleteZooById").setParameter("id", id).executeUpdate();
+            em.getTransaction().commit();
+            return true;
+        } finally {
+            em.close();
+        }
+    }
 
 
 
