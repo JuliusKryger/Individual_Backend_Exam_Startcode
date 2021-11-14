@@ -1,10 +1,14 @@
 package facades;
 
 import dtos.ZooDTO;
+import dtos.ZoosDTO;
 import entities.Zoo;
+import utils.Utility;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class ZooFacade {
 
@@ -49,6 +53,29 @@ public class ZooFacade {
             return null;
         }
 
+    }
+
+    /**                                                     !! Will remove later !!
+    public List<ZooDTO> getAllZoosREMOVE() {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Zoo> query = em.createQuery("SELECT z FROM Zoo z JOIN z.animals", Zoo.class);
+        return Utility.convertList(ZooDTO.class, query.getResultList());
+    }
+    **/
+
+    public ZoosDTO getAllZoos(){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            TypedQuery <Zoo> typedQuery = em.createNamedQuery("Zoo.getAllRows", Zoo.class);
+            List<Zoo> zooList = typedQuery.getResultList();
+            ZoosDTO zoosDTO = new ZoosDTO(zooList);
+            em.getTransaction().commit();
+            return zoosDTO;
+        }
+        finally {
+            em.close();
+        }
     }
 
 

@@ -1,7 +1,10 @@
 package entities;
 
+import dtos.AnimalDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "animal")
@@ -21,7 +24,7 @@ public class Animal implements Serializable {
     @Column(name = "age", length = 175, nullable = false)
     private String age;
 
-    @OneToMany
+    @ManyToMany
     private List<Zoo> zoos;
 
     private static final long serialVersionUID = 1L;
@@ -41,6 +44,12 @@ public class Animal implements Serializable {
     public Animal(String name, String age) {
         this.name = name;
         this.age = age;
+    }
+
+    public Animal(AnimalDTO dto) {
+        this.name = dto.getName();
+        this.age = dto.getAge();
+        this.zoos = new ArrayList<>();
     }
 
     /** GETTERS AND SETTERS **/

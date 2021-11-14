@@ -18,7 +18,9 @@ import java.util.List;
 
 public class Zoo implements Serializable {
 
-    /** This is my variables **/
+    /**
+     * This is my variables
+     **/
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +30,14 @@ public class Zoo implements Serializable {
     @Column(name = "zoo", length = 175, nullable = false)
     private String zoo;
 
-    @OneToMany(mappedBy = "animals", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany (mappedBy = "zoos", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Animal> animals;
 
     private static final long serialVersionUID = -1L;
 
-    /** This is my constructor **/
+    /**
+     * This is my constructor
+     **/
 
     public Zoo() {
     }
@@ -44,7 +48,9 @@ public class Zoo implements Serializable {
         this.animals = animals;
     }
 
-    /** GETTERS AND SETTERS **/
+    /**
+     * GETTERS AND SETTERS
+     **/
 
     public Integer getId() {
         return id;
@@ -70,7 +76,9 @@ public class Zoo implements Serializable {
         this.animals = animals;
     }
 
-    /** This is where all my methods go **/
+    /**
+     * This is where all my methods go
+     **/
 
     public void addAnimal(Animal animal) {
         if (animal != null) {
