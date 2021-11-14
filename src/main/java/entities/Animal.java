@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Table(name = "animal")
 @Entity
@@ -20,6 +21,9 @@ public class Animal implements Serializable {
     @Column(name = "age", length = 175, nullable = false)
     private String age;
 
+    @OneToMany
+    private List<Zoo> zoos;
+
     private static final long serialVersionUID = 1L;
 
 
@@ -30,6 +34,11 @@ public class Animal implements Serializable {
 
     public Animal(Integer id, String name, String age) {
         this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+
+    public Animal(String name, String age) {
         this.name = name;
         this.age = age;
     }
@@ -58,6 +67,10 @@ public class Animal implements Serializable {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public List<Zoo> getZoos() {
+        return zoos;
     }
 
     @Override

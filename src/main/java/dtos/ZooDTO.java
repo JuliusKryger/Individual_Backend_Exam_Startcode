@@ -5,15 +5,21 @@ import java.util.List;
 
 public class ZooDTO {
 
+    /** This is my variables **/
+
     private Integer id;
     private String zoo;
     private List<Animal> animals;
+
+    /** This is the constructor **/
 
     public ZooDTO(Integer id, String zoo, List<Animal> animals) {
         this.id = id;
         this.zoo = zoo;
         this.animals = animals;
     }
+
+    /** GETTERS AND SETTERS **/
 
     public Integer getId() {
         return id;

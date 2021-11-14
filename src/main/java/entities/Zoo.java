@@ -1,7 +1,10 @@
 package entities;
 
+import dtos.AnimalDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "zoo")
@@ -57,6 +60,42 @@ public class Zoo implements Serializable {
     }
 
     public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
+    }
+
+    /** This is where all my methods go **/
+
+    public void addAnimal(Animal animal) {
+        if (animal != null) {
+            this.animals.add(animal);
+            animal.getZoos().add(this);
+        }
+    }
+
+    public void removeAnimal(Animal animal) {
+        if (animal != null) {
+            this.animals.remove(animal);
+            animal.getZoos().remove(this);
+        }
+    }
+
+    public List<Animal> getAnimalList(List<AnimalDTO> animalDTOS) {
+        ArrayList<Animal> list = new ArrayList<>();
+        for (AnimalDTO a : animalDTOS) {
+            list.add(new Animal(a.getName(), a.getAge()));
+        }
+        return list;
+    }
+
+    public List<AnimalDTO> getAnimalDTOList(List<Animal> animal) {
+        ArrayList<AnimalDTO> list = new ArrayList<>();
+        for (Animal a : animal) {
+            list.add(new AnimalDTO(a));
+        }
+        return list;
+    }
+
+    public void replaceAnimals(ArrayList<Animal> animals) {
         this.animals = animals;
     }
 
