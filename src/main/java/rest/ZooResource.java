@@ -42,7 +42,7 @@ public class ZooResource {
         return GSON.toJson(zooDTO);
     }
 
-    @Path("/zoo/all")
+    @Path("/all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllZoos() {
