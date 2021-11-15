@@ -11,7 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("Zoo")
+@Path("/zoo")
 public class ZooResource {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final ZooFacade FACADE = ZooFacade.getZooFacade(EMF);
@@ -42,7 +42,7 @@ public class ZooResource {
         return GSON.toJson(zooDTO);
     }
 
-    @Path("/all")
+    @Path("/zoo/all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllZoos() {
